@@ -1,0 +1,20 @@
+
+Stefan Alexia 
+322CB
+
+Parcurg vectorul de segmente si verific daca adresa care a produs seg fault-ul
+este in unul dintre segmente.
+
+In cazul in care este nula, apelez handler-ul default. 
+
+Aloc un vector de nr_of_pages, in campul data al segmentului care cauzeaza segmentation
+fault-ul pentru a stoca in el daca pagina a fost mapata sau nu. 
+(daca este mapata atunci valoarea de pe pozitia index_of_page va fi 1,
+daca este nemapata atunci valoarea de pe poztia index_of_page va fi 0 cum
+este default, pentru ca fac calloc)
+
+In cazul in care pagina a fost mapata deja, apelez handler-ul default.
+Altfel, verific in ce caz sunt: daca file_size < mem_size am "unspecified"
+behaviour, altfel setez mapping_flags-urile corespunzatoare si calculez daca
+exista vreun offset (variabila "difference") ce ar trebui zerorizat (prin memset)
+daca este diferit de zero si apoi verific daca s-a efectuat cu succes.
